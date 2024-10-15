@@ -50,7 +50,6 @@ footer {
   parte esquerda da página */
   float:left;
   /* Cor de fundo da div */
-  background-color:#FF0;
   }
 #conteudo-right{
   /*Novamente definimos a largura da div*/
@@ -65,5 +64,4 @@ footer {
   pois o máximo que a div filha poderá ter é 1000px, sendo 500+500=1000px */
   float:left;
   /* Cor de fundo da div */
-  background-color:#F00;
   }
