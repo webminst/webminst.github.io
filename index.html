@@ -1,570 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giovanni Guimarães — Dev & Researcher</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #060910;
-            --surface: #0d1421;
-            --border: #1a2540;
-            --accent: #00e5ff;
-            --accent2: #7b61ff;
-            --accent3: #00ff9d;
-            --text: #c8d6ef;
-            --muted: #4a5a7a;
-            --heading: #eaf0ff;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* --- GRID BACKGROUND --- */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-            background-size: 48px 48px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* --- GLOW BLOB --- */
-        body::after {
-            content: '';
-            position: fixed;
-            top: -200px;
-            right: -200px;
-            width: 700px;
-            height: 700px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(123,97,255,0.12) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .wrapper {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 24px 100px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* --- HEADER --- */
-        header {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 40px;
-            align-items: start;
-            margin-bottom: 72px;
-            animation: fadeUp 0.6s ease both;
-        }
-
-        .avatar-wrap {
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .avatar-wrap::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
-            animation: spin 6s linear infinite;
-            z-index: -1;
-        }
-
-        .avatar-wrap img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            display: block;
-            border: 4px solid var(--bg);
-            object-fit: cover;
-            background: var(--surface);
-        }
-
-        .avatar-placeholder {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--surface);
-            border: 4px solid var(--bg);
-            font-size: 40px;
-        }
-
-        .header-text { padding-top: 8px; }
-
-        .tag {
-            display: inline-block;
-            font-size: 11px;
-            font-family: 'Space Mono', monospace;
-            color: var(--accent);
-            background: rgba(0,229,255,0.08);
-            border: 1px solid rgba(0,229,255,0.2);
-            border-radius: 4px;
-            padding: 2px 10px;
-            margin-bottom: 12px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(28px, 5vw, 48px);
-            font-weight: 800;
-            color: var(--heading);
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 8px;
-        }
-
-        h1 span {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            font-size: 13px;
-            color: var(--muted);
-            margin-bottom: 20px;
-        }
-
-        .bio {
-            font-size: 13.5px;
-            color: var(--text);
-            max-width: 560px;
-            line-height: 1.8;
-        }
-
-        .bio a {
-            color: var(--accent);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(0,229,255,0.3);
-            transition: border-color 0.2s;
-        }
-        .bio a:hover { border-color: var(--accent); }
-
-        /* --- SECTION TITLES --- */
-        .section { margin-bottom: 56px; animation: fadeUp 0.6s ease both; }
-        .section:nth-child(2) { animation-delay: 0.1s; }
-        .section:nth-child(3) { animation-delay: 0.2s; }
-        .section:nth-child(4) { animation-delay: 0.3s; }
-        .section:nth-child(5) { animation-delay: 0.4s; }
-
-        .section-title {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--accent);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--border), transparent);
-        }
-
-        /* --- SKILLS GRID --- */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .skill-chip {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 7px 14px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 12.5px;
-            color: var(--text);
-            transition: all 0.2s;
-            cursor: default;
-        }
-
-        .skill-chip:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(0,229,255,0.05);
-            transform: translateY(-2px);
-        }
-
-        .skill-chip .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent3);
-            flex-shrink: 0;
-        }
-
-        /* --- CARDS --- */
-        .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-        @media (max-width: 600px) {
-            header { grid-template-columns: 1fr; }
-            .cards { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        .card:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-        .card:hover::before { opacity: 1; }
-
-        .card-icon { font-size: 22px; margin-bottom: 12px; }
-
-        .card h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--heading);
-            margin-bottom: 6px;
-        }
-
-        .card p { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
-
-        .card a {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 11.5px;
-            color: var(--accent);
-            text-decoration: none;
-            letter-spacing: 0.05em;
-        }
-        .card a:hover { text-decoration: underline; }
-
-        /* --- TIMELINE --- */
-        .timeline { display: flex; flex-direction: column; gap: 0; }
-
-        .timeline-item {
-            display: grid;
-            grid-template-columns: 28px 1fr;
-            gap: 16px;
-            position: relative;
-        }
-
-        .timeline-line {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .timeline-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--accent);
-            border: 2px solid var(--bg);
-            box-shadow: 0 0 10px rgba(0,229,255,0.5);
-            flex-shrink: 0;
-            margin-top: 4px;
-        }
-
-        .timeline-connector {
-            width: 1px;
-            flex: 1;
-            background: var(--border);
-            margin: 4px 0;
-            min-height: 20px;
-        }
-
-        .timeline-item:last-child .timeline-connector { display: none; }
-
-        .timeline-content { padding-bottom: 28px; }
-
-        .timeline-content h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 14.5px;
-            font-weight: 700;
-            color: var(--heading);
-            margin-bottom: 2px;
-        }
-
-        .timeline-meta {
-            font-size: 11px;
-            color: var(--accent2);
-            margin-bottom: 6px;
-            letter-spacing: 0.05em;
-        }
-
-        .timeline-content p { font-size: 12.5px; color: var(--muted); }
-        .timeline-content a { color: var(--accent2); text-decoration: none; }
-        .timeline-content a:hover { text-decoration: underline; }
-
-        /* --- EXPERIENCE --- */
-        .exp-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px 24px;
-            margin-bottom: 12px;
-            transition: border-color 0.2s;
-        }
-
-        .exp-item:hover { border-color: rgba(123,97,255,0.3); }
-
-        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
-
-        .exp-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--heading);
-        }
-
-        .exp-company {
-            font-size: 12px;
-            color: var(--accent2);
-        }
-
-        .exp-date {
-            font-size: 11px;
-            color: var(--muted);
-            font-family: 'Space Mono', monospace;
-            white-space: nowrap;
-        }
-
-        .exp-desc { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
-
-        /* --- SOCIAL --- */
-        .social-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            text-decoration: none;
-            font-size: 12.5px;
-            font-family: 'Space Mono', monospace;
-            transition: all 0.2s;
-        }
-
-        .social-btn:hover {
-            background: rgba(0,229,255,0.06);
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        /* --- QUOTE --- */
-        .quote {
-            margin-top: 60px;
-            padding: 28px 32px;
-            border-left: 2px solid var(--accent);
-            background: rgba(0,229,255,0.03);
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(360deg); }
-        }
-
-        /* --- CURSOR BLINK --- */
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1em;
-            background: var(--accent);
-            margin-left: 2px;
-            vertical-align: text-bottom;
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    </style>
+    <meta name="description" content="Your website description here">
+    <link rel="preconnect" href="https://example.com">
+    <meta property="og:title" content="Title of your webpage">
+    <meta property="og:description" content="Your Open Graph description">
+    <meta property="og:image" content="URL to image">
+    <title>Your Title</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="wrapper">
-
-    <!-- HEADER -->
     <header>
-        <div class="avatar-wrap">
-            <!-- Substitua pelo caminho correto da sua foto -->
-            <div class="avatar-placeholder">👨‍💻</div>
-        </div>
-
-        <div class="header-text">
-            <span class="tag">// disponível para colaborações</span>
-            <h1>Giovanni <span>Guimarães</span></h1>
-            <p class="subtitle">Tutor de Disciplinas EAD na Unifor<span class="cursor"></span></p>
-            <p class="bio">
-                Graduado em Ciência da Computação pela
-                <a href="https://www.ufersa.edu.br/" target="_blank">UFERSA</a> e mestrando em Engenharia de Software.
-                Apaixonado por <strong style="color:var(--heading)">Inteligência Artificial</strong>,
-                <strong style="color:var(--heading)">Machine Learning</strong> e automação de sistemas.
-                Construindo soluções que importam.
-            </p>
-        </div>
+        <h1>Your Main Title</h1>
+        <h2>Engenheiro de Software · Python · Web · Automação · IA aplicada</h2>
     </header>
-
-    <!-- SKILLS -->
-    <div class="section">
-        <div class="section-title">01 / habilidades</div>
-        <div class="skills-grid">
-            <div class="skill-chip"><span class="dot"></span> Python</div>
-            <div class="skill-chip"><span class="dot"></span> C / C++</div>
-            <div class="skill-chip"><span class="dot"></span> Java</div>
-            <div class="skill-chip"><span class="dot"></span> Assembly</div>
-            <div class="skill-chip"><span class="dot"></span> Machine Learning</div>
-            <div class="skill-chip"><span class="dot"></span> Inteligência Artificial</div>
-            <div class="skill-chip"><span class="dot"></span> Desenvolvimento Web</div>
-            <div class="skill-chip"><span class="dot"></span> Desenvolvimento Mobile</div>
-            <div class="skill-chip"><span class="dot"></span> Chatbots & APIs</div>
-            <div class="skill-chip"><span class="dot"></span> Segurança Computacional</div>
-            <div class="skill-chip"><span class="dot"></span> Análise de Dados</div>
-            <div class="skill-chip"><span class="dot"></span> Automação de Sistemas</div>
-        </div>
-    </div>
-
-    <!-- PROJETOS -->
-    <div class="section">
-        <div class="section-title">02 / projetos</div>
-        <div class="cards">
-            <div class="card">
-                <div class="card-icon">🤖</div>
-                <h3>Projeto J.A.R.V.I.S.</h3>
-                <p>Recriação do assistente pessoal do Homem de Ferro utilizando Python e integração com APIs do Google. Automação inteligente e interação por voz.</p>
-                <a href="https://lnkd.in/dRqq5NjS" target="_blank">→ Ver projeto</a>
+    <main>
+        <section id="bio">
+            <p>Your bio content here.</p>
+            <div class="cta-row">
+                <button onclick="location.href='#contato'">Falar comigo</button>
+                <button onclick="location.href='mailto:webminst@hotmail.com'">Email Me</button>
+                <button disabled>CV (Coming soon)</button>
             </div>
-            <div class="card">
-                <div class="card-icon">⛏️</div>
-                <h3>Fórum Estadual Mineral</h3>
-                <p>Aplicação web com deploy na Vercel. Aplicação de conceitos modernos de desenvolvimento frontend e arquitetura de sistemas.</p>
-                <a href="https://minerais.vercel.app" target="_blank">→ Ver deploy</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- EXPERIÊNCIA -->
-    <div class="section">
-        <div class="section-title">03 / experiência</div>
-
-        <div class="exp-item">
-            <div class="exp-header">
-                <div>
-                    <div class="exp-title">Tutor de Disciplinas EAD</div>
-                    <div class="exp-company">
-                        <a href="https://www.unifor.br/" target="_blank" style="color:var(--accent2);text-decoration:none;">Universidade de Fortaleza — Unifor</a>
-                    </div>
-                </div>
-                <div class="exp-date">ago 2025 – atual</div>
-            </div>
-            <p class="exp-desc">Tutoria de disciplinas no ensino a distância, acompanhamento pedagógico de alunos, elaboração de materiais de apoio e suporte ao processo de ensino-aprendizagem em ambiente virtual.</p>
-        </div>
-
-
-    </div>
-
-    <!-- FORMAÇÃO -->
-    <div class="section">
-        <div class="section-title">04 / formação</div>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-line">
-                    <div class="timeline-dot" style="background:var(--accent2);box-shadow:0 0 10px rgba(123,97,255,0.5)"></div>
-                    <div class="timeline-connector"></div>
-                </div>
-                <div class="timeline-content">
-                    <h3>Bacharelado em Ciência da Computação</h3>
-                    <div class="timeline-meta">jan 2018 – nov 2023 &nbsp;·&nbsp; <a href="https://www.ufersa.edu.br/" target="_blank">UFERSA</a></div>
-                    <p>Base sólida em algoritmos, sistemas, redes e desenvolvimento de software.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONTATO -->
-    <div class="section">
-        <div class="section-title">05 / contato</div>
-        <div class="social-row">
-            <a class="social-btn" href="https://www.linkedin.com/in/giovanni-guimaraes-7a9990169/" target="_blank">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-                LinkedIn
-            </a>
-            <a class="social-btn" href="https://github.com/giovanni-guimaraes" target="_blank">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                GitHub
-            </a>
-            <a class="social-btn" href="https://twitter.com/giovanni_guimaraes" target="_blank">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
-                Twitter
-            </a>
-        </div>
-    </div>
-
-    <!-- QUOTE -->
-    <div class="quote">
-        "Acredito no poder da colaboração e no aprendizado contínuo. Vamos construir o futuro juntos!"
-    </div>
-
-</div>
+        </section>
+        <section id="serviços">
+            <h3>Serviços</h3>
+            <p>Description of services targeted for freelas.</p>
+        </section>
+        <section id="projetos">
+            <h3>Projetos</h3>
+            <p>Your projects content.</p>
+        </section>
+        <section id="experiência">
+            <h3>Experiência</h3>
+            <p>Your experience content.</p>
+        </section>
+    </main>
+    <footer>
+        <p>Footer content here.</p>
+    </footer>
+    <style>
+        :focus-visible {
+            outline: 2px solid blue;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+        .cta-row button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+        }
+        a[target='_blank'] {
+            rel="noopener noreferrer";
+        }
+    </style>
 </body>
 </html>
